@@ -1,0 +1,526 @@
+using System.Security.AccessControl;
+using System.Diagnostics;
+using System.Text;
+using System;
+using System.Xml.Schema;
+namespace zadanie1
+{
+    using System;
+    [TestClass]
+    public class Test{
+        public int sum(string s){
+            int sum = 0;
+            for(string num in s.Split(",")){
+                sum += Int32.Parse(num);
+            }
+            return sum;
+        }
+        [TestMethod]
+        public void empty(){
+            Assert.areEqual(sum(""),0,"");
+            
+        }
+        [TestMethod]
+        public void oneArgument(){
+            Assert.areEqual(sum(""),0);
+            Assert.areEqual(sum("1"),1);
+            Assert.areEqual(sum("1,2"),3);
+        }
+        [TestMethod]
+        public void twoArgument(){
+            Assert.areEqual(sum(""),0);
+            Assert.areEqual(sum("1"),1);
+            Assert.areEqual(sum("1,2"),3);
+            Assert.areEqual(sum("1,2,2,4"),9);
+        }
+    
+    }
+}
+
+namespace zadanie2
+{
+    using System;
+    [TestClass]
+    public class Test{
+        public int sum(string s){
+            int sum = 0;
+            for(string num in s.Split(",")){
+                sum += Int32.Parse(num);
+            }
+            return sum;
+        }
+        [TestMethod]
+        public void empty(){
+            Assert.areEqual(sum(""),0,"");
+            
+        }
+        [TestMethod]
+        public void oneArgument(){
+            Assert.areEqual(sum(""),0);
+            Assert.areEqual(sum("1"),1);
+            Assert.areEqual(sum("1,2"),3);
+        }
+        [TestMethod]
+        public void twoArgument(){
+            Assert.areEqual(sum(""),0);
+            Assert.areEqual(sum("1"),1);
+            Assert.areEqual(sum("1,2"),3);
+            
+        }
+    [TestMethod]
+    public void anyArgument(){
+        Assert.areEqual(sum("1,2,2,4"),9);
+    }
+     
+    }
+}
+namespace zadanie3
+{
+        using System;
+    [TestClass]
+    public class Test{
+        public int sum(string s){
+            int sum = 0;
+            for(string num in s.Split(",","\n")){
+                sum += Int32.Parse(num);
+            }
+            return sum;
+        }
+        [TestMethod]
+        public void empty(){
+            Assert.areEqual(sum(""),0,"");
+            
+        }
+        [TestMethod]
+        public void oneArgument(){
+            Assert.areEqual(sum(""),0);
+            Assert.areEqual(sum("1"),1);
+            Assert.areEqual(sum("1,2"),3);
+        }
+        [TestMethod]
+        public void twoArgument(){
+            Assert.areEqual(sum(""),0);
+            Assert.areEqual(sum("1"),1);
+            Assert.areEqual(sum("1,2"),3);
+            
+        }
+    [TestMethod]
+    public void anyArgument(){
+        Assert.areEqual(sum("1,2,2,4"),9);
+    }
+     
+    }
+}
+namespace zadanie4
+{
+    using System;
+    [TestClass]
+    public class Test{
+        public int sum(string s){
+            int sum = 0;
+            List<string> seplist = new List<string>();
+            seplist.Add(",");
+            seplist.Add("\n");
+            if(s.Substring(0,2).Equals("//")){
+                seplist.Add(s[2]);
+            }
+            s = s.Substring(4,s.Length);
+            for(string num in s.Split(seplist)){
+                sum += Int32.Parse(num);
+            
+            }
+            return sum;
+        }
+        [TestMethod]
+        public void empty(){
+            Assert.areEqual(sum(""),0,"");
+            
+        }
+        [TestMethod]
+        public void oneArgument(){
+            Assert.areEqual(sum(""),0);
+            Assert.areEqual(sum("1"),1);
+            Assert.areEqual(sum("1,2"),3);
+        }
+        [TestMethod]
+        public void twoArgument(){
+            Assert.areEqual(sum(""),0);
+            Assert.areEqual(sum("1"),1);
+            Assert.areEqual(sum("1,2"),3);
+            
+        }
+        [TestMethod]
+        public void anyArgument(){
+            Assert.areEqual(sum("1,2,2,4"),9);
+        }
+        [TestMethod]
+        public void customSep(){
+            Assert.areEqual(sum("//;\n1,2,2,4"),9);
+        }
+     
+    }
+}
+namespace zadanie5
+{   
+    using System;
+    using System.Runtime.Serialization;
+    using System.Generic;
+
+    [Serializable()]
+    class NegNumberException : Exception{
+        protected NegNumberException() :base(){}
+        public NegNumberException(List<int> list)
+        :base(String.Format("Negative numbers not allowed "))
+        {
+        } 
+
+    }
+
+    [TestClass]
+    public class Test{
+        public int sum(string s){
+            List<int> negNum =  List<int>;
+            bool throwNegnumex = false;
+            int sum = 0;
+
+            List<string> seplist = new List<string>();
+            seplist.Add(",");
+            seplist.Add("\n");
+            if(s.Substring(0,2).Equals("//")){
+                seplist.Add( s[2]);
+            }
+            s = s.Substring(4,s.Length);
+            for(string num in s.Split(seplist)){
+                int num = Int32.Parse(num);
+                if(num < 0){
+                    negNum.Add(num);
+                    throwNegnumex = true;
+                }
+                else{
+                    sum += num;
+                }
+            
+            }
+            if(throwNegnumex){
+                        throw new NegNumberException(negNum);
+            }
+            return sum;
+        }
+        [TestMethod]
+        public void empty(){
+            Assert.areEqual(sum(""),0,"");
+            
+        }
+        [TestMethod]
+        public void oneArgument(){
+            Assert.areEqual(sum(""),0);
+            Assert.areEqual(sum("1"),1);
+            Assert.areEqual(sum("1,2"),3);
+        }
+        [TestMethod]
+        public void twoArgument(){
+            Assert.areEqual(sum(""),0);
+            Assert.areEqual(sum("1"),1);
+            Assert.areEqual(sum("1,2"),3);
+            
+        }
+        [TestMethod]
+        public void anyArgument(){
+            Assert.areEqual(sum("1,2,2,4"),9);
+        }
+        [TestMethod]
+        public void customSep(){
+            Assert.areEqual(sum("//;\n1,2,2,4"),9);
+        }
+        [TestMethod]
+        public void negNum(){
+            Assert.ThrowsException<NegNumberException>(sum("-1,-2,-3"));
+        }
+
+     
+    }
+}
+namespace zadanie6
+{   
+    using System;
+    using System.Runtime.Serialization;
+    using System.Generic;
+
+    [Serializable()]
+    class NegNumberException : Exception{
+        protected NegNumberException() :base(){}
+        public NegNumberException(List<int> list)
+        :base(String.Format("Negative numbers not allowed "))
+        {
+        } 
+
+    }
+
+    [TestClass]
+    public class Test{
+        public int sum(string s){
+            List<int> negNum =  List<int>;
+            bool throwNegnumex = false;
+            int sum = 0;
+            List<string> seplist = new List<string>();
+            seplist.Add(",");
+            seplist.Add("\n");
+            if(s.Substring(0,2).Equals("//")){
+                seplist.Add( s[2]);
+            }
+            s = s.Substring(4,s.Length);
+            for(string num in s.Split(seplist)){
+                int num = Int32.Parse(num);
+                if(num < 0){
+                    negNum.Add(num);
+                    throwNegnumex = true;
+                }
+                else if(num > 1000){
+                    continue;
+                }
+                else{
+                    sum += num;
+                }
+            
+            }
+            if(throwNegnumex){
+                        throw new NegNumberException(negNum);
+            }
+            return sum;
+        }
+        [TestMethod]
+        public void empty(){
+            Assert.areEqual(sum(""),0,"");
+            
+        }
+        [TestMethod]
+        public void oneArgument(){
+            Assert.areEqual(sum(""),0);
+            Assert.areEqual(sum("1"),1);
+            Assert.areEqual(sum("1,2"),3);
+        }
+        [TestMethod]
+        public void twoArgument(){
+            Assert.areEqual(sum(""),0);
+            Assert.areEqual(sum("1"),1);
+            Assert.areEqual(sum("1,2"),3);
+            
+        }
+        [TestMethod]
+        public void anyArgument(){
+            Assert.areEqual(sum("1,2,2,4"),9);
+        }
+        [TestMethod]
+        public void customSep(){
+            Assert.areEqual(sum("//;\n1,2,2,4"),9);
+        }
+        [TestMethod]
+        public void negNum(){
+            Assert.ThrowsException<NegNumberException>(sum("-1,-2,-3"));
+        }
+        [TestMethod]
+        public void moreThan1Thousand(){
+            Assert.areEqual(sum("1,2000"),1);
+        }
+
+
+
+     
+    }
+}
+namespace zadanie7
+{   
+    using System;
+    using System.Runtime.Serialization;
+    using System.Generic;
+    using System.Text.RegularExpressions;
+
+    [Serializable()]
+    class NegNumberException : Exception{
+        protected NegNumberException() :base(){}
+        public NegNumberException(List<int> list)
+        :base(String.Format("Negative numbers not allowed "))
+        {
+        } 
+
+    }
+
+    [TestClass]
+    public class Test{
+        public List<String> separators(string s){
+        }
+        public int sum(string s){
+            List<int> negNum =  List<int>;
+            bool throwNegnumex =false;
+            int sum = 0;
+            
+            List<string> seplist = new List<string>();
+            seplist.Add(",");
+            seplist.Add("\n");
+
+            string[] splited = s.Split("\n",1);
+            s = splited[1];
+            var rsep = splited[0];
+            var reg = new Regex(@"\[(.+)\]|(.)");
+            var nsep = reg.Matches(rsep);
+            
+            for(var sep in nsep){
+                seplist.Add( sep);
+            }
+            s = s.Substring(4,s.Length);
+            for(string num in s.Split(seplist.ToArray())){
+                int num = Int32.Parse(num);
+                if(num < 0){
+                    negNum.Add(num);
+                    throwNegnumex = true;
+                }
+                else if(num > 1000){
+                    continue;
+                }
+                else{
+                    sum += num;
+                }
+            
+            }
+            if(throwNegnumex){
+                        throw new NegNumberException(negNum);
+            }
+            return sum;
+        }
+        [TestMethod]
+        public void empty(){
+            Assert.areEqual(sum(""),0,"");
+            
+        }
+        [TestMethod]
+        public void oneArgument(){
+            Assert.areEqual(sum(""),0);
+            Assert.areEqual(sum("1"),1);
+            Assert.areEqual(sum("1,2"),3);
+        }
+        [TestMethod]
+        public void twoArgument(){
+            Assert.areEqual(sum(""),0);
+            Assert.areEqual(sum("1"),1);
+            Assert.areEqual(sum("1,2"),3);
+            
+        }
+        [TestMethod]
+        public void anyArgument(){
+            Assert.areEqual(sum("1,2,2,4"),9);
+        }
+        [TestMethod]
+        public void customSep(){
+            Assert.areEqual(sum("//;\n1,2,2,4"),9);
+        }
+        [TestMethod]
+        public void negNum(){
+            Assert.ThrowsException<NegNumberException>(sum("-1,-2,-3"));
+        }
+        [TestMethod]
+        public void moreThan1Thousand(){
+            Assert.areEqual(sum("1,2000"),1);
+        }
+
+
+
+     
+    }
+}
+namespace zadanie7
+{   
+    using System;
+    using System.Runtime.Serialization;
+    using System.Generic;
+    using System.Text.RegularExpressions;
+
+    [Serializable()]
+    class NegNumberException : Exception{
+        protected NegNumberException() :base(){}
+        public NegNumberException(List<int> list)
+        :base(String.Format("Negative numbers not allowed "))
+        {
+        } 
+
+    }
+
+    [TestClass]
+    public class Test{
+        public List<String> separators(string s){
+        }
+        public int sum(string s){
+            List<int> negNum =  List<int>;
+            bool throwNegnumex =false;
+            int sum = 0;
+            List<string> seplist = new List<string>{",","\n"};
+            
+            string[] splited = s.Split("\n",1);
+            s = splited[1];
+            var rsep = splited[0];
+            var reg = new Regex(@"\[(.+)\]|(.)");
+            var nsep = reg.Matches(rsep);
+            
+            for(var sep in nsep){
+                seplist.Add( sep);
+            }
+            s = s.Substring(4,s.Length);
+            for(string num in s.Split(seplist.ToArray())){
+                int num = Int32.Parse(num);
+                if(num < 0){
+                    negNum.Add(num);
+                    throwNegnumex = true;
+                }
+                else if(num > 1000){
+                    continue;
+                }
+                else{
+                    sum += num;
+                }
+            
+            }
+            if(throwNegnumex){
+                        throw new NegNumberException(negNum);
+            }
+            return sum;
+        }
+        [TestMethod]
+        public void empty(){
+            Assert.areEqual(sum(""),0,"");
+            
+        }
+        [TestMethod]
+        public void oneArgument(){
+            Assert.areEqual(sum(""),0);
+            Assert.areEqual(sum("1"),1);
+            Assert.areEqual(sum("1,2"),3);
+        }
+        [TestMethod]
+        public void twoArgument(){
+            Assert.areEqual(sum(""),0);
+            Assert.areEqual(sum("1"),1);
+            Assert.areEqual(sum("1,2"),3);
+            
+        }
+        [TestMethod]
+        public void anyArgument(){
+            Assert.areEqual(sum("1,2,2,4"),9);
+        }
+        [TestMethod]
+        public void customSep(){
+            Assert.areEqual(sum("//;\n1,2,2,4"),9);
+        }
+        [TestMethod]
+        public void negNum(){
+            Assert.ThrowsException<NegNumberException>(sum("-1,-2,-3"));
+        }
+        [TestMethod]
+        public void moreThan1Thousand(){
+            Assert.areEqual(sum("1,2000"),1);
+        }
+
+
+
+     
+    }
+}
+
